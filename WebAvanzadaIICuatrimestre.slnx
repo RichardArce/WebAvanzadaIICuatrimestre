@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/.github/">
+    <File Path="instruccions.md" />
+  </Folder>
+  <Folder Name="/.github/agents/" />
   <Project Path="WebAvanzadaIICuatrimestre.BLL/WebAvanzadaIICuatrimestre.BLL.csproj" />
   <Project Path="WebAvanzadaIICuatrimestre.DAL/WebAvanzadaIICuatrimestre.DAL.csproj" Id="5f961b31-1398-4c30-89b1-9d5cec30e9d9" />
   <Project Path="WebAvanzadaIICuatrimestre/WebAvanzadaIICuatrimestre.csproj" />
