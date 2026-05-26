@@ -1,6 +1,8 @@
 
 using Microsoft.EntityFrameworkCore;
+using WebAvanzadaIICuatrimestre.BLL;
 using WebAvanzadaIICuatrimestre.DAL.Data;
+using WebAvanzadaIICuatrimestre.DAL.Repositorios.Carro;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,31 @@ builder.Services.AddControllersWithViews();
 // Register EF Core DbContext (SQLite). Update the connection string in appsettings.json
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//Inyección de dependencias para repositorios, servicios, etc.
+
+// Repositorios
+builder.Services.AddScoped<ICarroRepositorio, CarroRepositorio>();
+builder.Services.AddScoped<WebAvanzadaIICuatrimestre.DAL.Repositorios.Duenno.IDuennoRepositorio, WebAvanzadaIICuatrimestre.DAL.Repositorios.Duenno.DuennoRepositorio>();
+
+// Servicios
+builder.Services.AddAutoMapper(cfg => { }, typeof(MapeoClases)); // Directamente desde la documentación
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 var app = builder.Build();
 

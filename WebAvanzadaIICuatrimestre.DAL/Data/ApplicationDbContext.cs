@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using WebAvanzadaIICuatrimestre.DAL.Entidades;
 
 namespace WebAvanzadaIICuatrimestre.DAL.Data;
@@ -41,6 +43,9 @@ public partial class ApplicationDbContext : DbContext
                 .HasColumnName("ID");
             entity.Property(e => e.Fkduenno).HasColumnName("FKDUENNO");
             entity.Property(e => e.Marca).HasDefaultValue("Sin Marca");
+            entity.Property(e => e.ValorFiscal).HasColumnType("NUMERIC");
+
+            entity.HasOne(d => d.FkduennoNavigation).WithMany(p => p.Carros).HasForeignKey(d => d.Fkduenno);
         });
 
         modelBuilder.Entity<Duenno>(entity =>

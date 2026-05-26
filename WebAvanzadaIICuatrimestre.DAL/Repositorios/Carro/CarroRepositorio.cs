@@ -51,10 +51,12 @@ namespace WebAvanzadaIICuatrimestre.DAL.Repositorios.Carro
             var existing = await _context.Carros.FindAsync(carro.Id);
             if (existing == null) return false; //validaciones básicas
 
-            // Update fields
-            existing.Nombre = carro.Nombre;
-            existing.Marca = carro.Marca;
+            // Copiar valores actualizados al entity existente
+            existing.Placa = carro.Placa ?? existing.Placa;
+            existing.Marca = carro.Marca ?? existing.Marca;
             existing.Fkduenno = carro.Fkduenno;
+            existing.Chocado = carro.Chocado ?? existing.Chocado;
+            existing.ValorFiscal = carro.ValorFiscal;
 
             _context.Carros.Update(existing);
             return await _context.SaveChangesAsync() > 0;

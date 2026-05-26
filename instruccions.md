@@ -7,7 +7,7 @@ Este documento recoge recomendaciones prácticas para trabajar con este proyecto 
   - En producción usar variables de entorno o un servicio de secretos (por ejemplo Azure Key Vault).
 
 - Entity Framework Core
-  - Registrar el `DbContext` vía DI (ya está en `Program.cs`).
+  - Registrar el `DbContext` vía DI(Inyección de dependencias) (ya está en `Program.cs`).
   - No hardcodear la cadena en `OnConfiguring`; permitir que DI la inyecte.
   - Usar migraciones (`dotnet ef migrations add <Nombre>` / `dotnet ef database update`) para evolucionar el esquema. Para SQLite, revisar limitaciones de alteraciones.
   - Mantener las entidades en la carpeta `Entidades` y el contexto en `Data`.
@@ -16,19 +16,6 @@ Este documento recoge recomendaciones prácticas para trabajar con este proyecto 
   - Habilitar `nullable` (ya está en el proyecto). Manejar referencias nulas explícitamente y usar tipos anulables cuando corresponda.
   - Preferir métodos `async` para acceso a datos (`ToListAsync`, `SaveChangesAsync`).
   - Seguir convenciones PascalCase para clases y propiedades.
-
-- Seguridad
-  - Habilitar HTTPS en producción y forzar redirección desde HTTP.
-  - Validar y sanitizar entradas del usuario en controladores y vistas.
-  - Evitar exponer detalles internos en errores; usar manejo centralizado de excepciones.
-
-- Rendimiento y despliegue
-  - Usar logging (`ILogger`) y niveles adecuados (Information, Warning, Error).
-  - Para escenarios con alta concurrencia, considerar usar una base de datos cliente/servidor en vez de SQLite.
-
-- Pruebas y calidad
-  - Añadir pruebas unitarias para la lógica de negocio y pruebas de integración para acceso a datos.
-  - Usar análisis estático (por ejemplo `dotnet format`, analyzers) y revisar warnings en PRs.
 
 - Control de versiones y PRs
   - Hacer commits pequeños y con mensajes claros. Abrir PRs para cambios significativos y pedir revisión.

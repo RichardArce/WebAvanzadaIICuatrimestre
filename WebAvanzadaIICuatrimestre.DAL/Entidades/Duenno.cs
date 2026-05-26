@@ -14,4 +14,6 @@ public partial class Duenno
     public string Apellido1 { get; set; } = null!;
 
     public string Apellido2 { get; set; } = null!;
+
+    public virtual ICollection<Carro> Carros { get; set; } = new List<Carro>();
 }
