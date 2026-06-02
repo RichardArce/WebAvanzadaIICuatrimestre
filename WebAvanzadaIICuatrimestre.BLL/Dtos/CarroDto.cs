@@ -8,12 +8,13 @@ namespace WebAvanzadaIICuatrimestre.BLL.Dtos
 
         public string Placa { get; set; } = null!;
 
-        public string Chocado { get; set; } = null!;
+        public int Chocado { get; set; }
 
         public decimal ValorFiscal { get; set; }
 
         public string Marca { get; set; } = null!;
 
         public int? Fkduenno { get; set; }
+        public DuennoDto? Duenno { get; set; }
     }
 }

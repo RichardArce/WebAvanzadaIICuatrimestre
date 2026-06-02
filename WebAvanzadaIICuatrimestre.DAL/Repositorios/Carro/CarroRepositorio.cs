@@ -55,7 +55,7 @@ namespace WebAvanzadaIICuatrimestre.DAL.Repositorios.Carro
             existing.Placa = carro.Placa ?? existing.Placa;
             existing.Marca = carro.Marca ?? existing.Marca;
             existing.Fkduenno = carro.Fkduenno;
-            existing.Chocado = carro.Chocado ?? existing.Chocado;
+            existing.Chocado = carro.Chocado;
             existing.ValorFiscal = carro.ValorFiscal;
 
             _context.Carros.Update(existing);

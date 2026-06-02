@@ -10,5 +10,6 @@ namespace WebAvanzadaIICuatrimestre.BLL.Dtos
         public int Edad { get; set; }
         public string Apellido1 { get; set; } = string.Empty;
         public string Apellido2 { get; set; } = string.Empty;
+        public List<CarroDto> Carros { get; set; } = new List<CarroDto>();
     }
 }

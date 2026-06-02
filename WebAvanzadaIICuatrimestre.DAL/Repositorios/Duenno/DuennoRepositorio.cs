@@ -35,12 +35,12 @@ namespace WebAvanzadaIICuatrimestre.DAL.Repositorios.Duenno
 
         public async Task<Entidades.Duenno?> GetDuennoById(int id)
         {
-            return await _context.Duennos.FindAsync(id);
+            return await _context.Duennos.Include(d => d.Carros).FirstOrDefaultAsync(d => d.Id == id);
         }
 
         public async Task<List<Entidades.Duenno>> GetDuennos()
         {
-            return await _context.Duennos.ToListAsync();
+            return await _context.Duennos.Include(d => d.Carros).ToListAsync();
         }
 
         public async Task<bool> UpdateDuenno(Entidades.Duenno Duenno)
@@ -49,7 +49,6 @@ namespace WebAvanzadaIICuatrimestre.DAL.Repositorios.Duenno
 
             var existing = await _context.Duennos.FindAsync(Duenno.Id);
             if (existing == null) return false;
-
             existing.Nombre = Duenno.Nombre ?? existing.Nombre;
             existing.Edad = Duenno.Edad;
             existing.Apellido1 = Duenno.Apellido1 ?? existing.Apellido1;

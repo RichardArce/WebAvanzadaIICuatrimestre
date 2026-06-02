@@ -9,7 +9,8 @@ public partial class Carro
 
     public string Placa { get; set; } = null!;
 
-    public string Chocado { get; set; } = null!;
+    // Stored as integer in DB (1 = SI, 0 = NO)
+    public int Chocado { get; set; }
 
     public decimal ValorFiscal { get; set; }
 

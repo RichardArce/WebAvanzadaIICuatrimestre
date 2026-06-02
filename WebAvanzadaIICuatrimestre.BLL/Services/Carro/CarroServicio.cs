@@ -38,7 +38,7 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Carro
 
             }
 
-            if (carro.Chocado == "SI")
+            if (carro.Chocado == 1)
             {
                 respuesta.esCorrecto = false;
                 respuesta.mensaje = "No aceptamos carros chocados";
@@ -133,7 +133,7 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Carro
                 return respuesta;
             }
 
-            if (!string.IsNullOrEmpty(carro.Chocado) && carro.Chocado.Equals("SI", StringComparison.OrdinalIgnoreCase))
+            if (carro.Chocado == 1)
             {
                 respuesta.esCorrecto = false;
                 respuesta.mensaje = "No aceptamos carros chocados";
