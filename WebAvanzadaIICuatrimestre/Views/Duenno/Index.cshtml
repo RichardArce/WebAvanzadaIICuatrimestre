@@ -1,0 +1,39 @@
+﻿@using WebAvanzadaIICuatrimestre.BLL.Dtos;
+@model List<DuennoDto>
+@{
+    ViewData["Title"] = "Mantenimiento de Dueños";
+}
+
+<h1>Lista de Dueños de Vehículos</h1>
+
+<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCrearDuenno">
+    Crear Dueño
+</button>
+
+<table id="tblDuenno" class="table table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Edad</th>
+            <th>Apellido1</th>
+            <th>Apellido2</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+
+@await Html.PartialAsync("_Crear") @* Esto es para incluir el modal de crear dueño en esta vista. *@
+
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" /> @* Esto es importante por que tiene los metodos para validacion de jquery *@
+    <script src="~/js/duenno.js" asp-append-version="true"></script> @* Cada vez que se haga cambios en el JS se genera un archivo nuevo con un hash en el nombre para evitar problemas de cacheo en el navegador. *@
+}
+
+
+

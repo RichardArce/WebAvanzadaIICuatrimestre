@@ -1,0 +1,60 @@
+﻿@model WebAvanzadaIICuatrimestre.BLL.Dtos.DuennoDto
+
+<div class="modal fade" id="modalCrearDuenno" tabindex="-1" aria-labelledby="modalCrearDuenno" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCrearDuenno">Crear Dueño</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formCrearDuenno" asp-action="CrearDuenno" asp-controller="Duenno" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Id" />
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label">Nombre</label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Apellido1" class="form-label">Apellido 1</label>
+                        <input asp-for="Apellido1" class="form-control" />
+                        <span asp-validation-for="Apellido1" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Apellido2" class="form-label">Apellido 2</label>
+                        <input asp-for="Apellido2" class="form-control" />
+                        <span asp-validation-for="Apellido2" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Edad" class="form-label">Edad</label>
+                        <input asp-for="Edad" type="number" min="0" class="form-control" />
+                        <span asp-validation-for="Edad" class="text-danger"></span>
+                    </div>
+
+    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="btnGuardarDuenno">Guardar Dueño</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
