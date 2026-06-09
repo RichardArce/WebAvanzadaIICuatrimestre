@@ -23,15 +23,33 @@ namespace WebAvanzadaIICuatrimestre.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ObtenerDuennos() // Metodos pequeños, el controlador no sabe respuesta de negocio, solo sabe que tiene que llamar al servicio y devolver la respuesta, la logica de negocio se encuentra en el servicio, esto para mantener una buena separacion de responsabilidades y evitar que el controlador tenga demasiada logica de negocio.
+        public async Task<IActionResult> GetDuennos() // Metodos pequeños, el controlador no sabe respuesta de negocio, solo sabe que tiene que llamar al servicio y devolver la respuesta, la logica de negocio se encuentra en el servicio, esto para mantener una buena separacion de responsabilidades y evitar que el controlador tenga demasiada logica de negocio.
         {
             var respuesta = await _duennoServicio.GetDuennos();
             return Json(respuesta);
         }
 
-        public async Task<IActionResult> CrearDuenno(DuennoDto duenno)// Model Binding, reicibir el objeto completo
+        public async Task<IActionResult> CreateDuenno(DuennoDto duenno)// Model Binding, reicibir el objeto completo
         {
-            var respuesta = await _duennoServicio.CreateDuenno(duenno);
+           var respuesta = await _duennoServicio.CreateDuenno(duenno);
+           return Json(respuesta);
+        }
+
+        public async Task<IActionResult> GetDuennoById(int id)
+        {
+            var respuesta = await _duennoServicio.GetDuennoById(id);
+            return Json(respuesta);
+        }
+
+        public async Task<IActionResult> UpdateDuenno(DuennoDto duenno) //nombres Programa con IA
+        {
+            var respuesta = await _duennoServicio.UpdateDuenno(duenno); //nombres Programa con IA
+            return Json(respuesta);
+        }
+
+        public async Task<IActionResult> DeleteDuenno(int id)
+        {
+            var respuesta = await _duennoServicio.DeleteDuenno(id);
             return Json(respuesta);
         }
 

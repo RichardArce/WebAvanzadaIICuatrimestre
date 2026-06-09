@@ -1,0 +1,55 @@
+/* Styles for Dueño CRUD views */
+:root{
+    --primary: #0d6efd;
+    --success: #198754;
+    --muted: #6c757d;
+}
+
+/* Card tweaks */
+.card-header h2{font-size:1.25rem}
+
+/* Table */
+#tblDuenno tbody tr:hover{background: rgba(13,110,253,0.04);}
+#tblDuenno thead th{font-weight:600}
+
+/* Actions */
+.btn-editar{min-width:84px}
+.btn-eliminar{min-width:84px}
+
+/* Modal improvements */
+.modal .modal-header{background:#f8f9fa}
+.modal .modal-title{font-weight:600}
+
+/* Footer buttons spacing */
+.modal-footer .btn{min-width:110px}
+
+/* Responsive tweaks */
+@media (max-width:576px){
+    #tblDuenno td:nth-child(4), #tblDuenno td:nth-child(5){display:none}
+}
+
+/* Form input focus */
+.form-control:focus{box-shadow:0 0 0 .15rem rgba(13,110,253,0.15);border-color:var(--primary)}
+
+/* Improve button visuals */
+.btn-success{background:linear-gradient(180deg,var(--success),#148a43);border:none}
+.btn-primary{background:linear-gradient(180deg,var(--primary),#0056c0);border:none}
+
+/* Small helper */
+.text-muted-small{color:var(--muted);font-size:.9rem}
+
+/* Action buttons look and icons */
+.btn-editar,
+.btn-eliminar{
+    display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:6px;font-weight:600
+}
+
+.btn-editar{background:transparent;border:1px solid rgba(13,110,253,0.08);color:inherit}
+.btn-eliminar{background:transparent;border:1px solid rgba(220,53,69,0.08);color:inherit}
+
+/* Add icons using pseudo-elements so JS doesn't need to change */
+.btn-editar::before{content:'?';display:inline-block;margin-right:4px;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.06));}
+.btn-eliminar::before{content:'??';display:inline-block;margin-right:4px;}
+
+.btn-editar:hover{box-shadow:0 6px 18px rgba(13,110,253,0.06)}
+.btn-eliminar:hover{box-shadow:0 6px 18px rgba(220,53,69,0.06)}

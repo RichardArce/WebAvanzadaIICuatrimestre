@@ -34,7 +34,7 @@ public partial class ApplicationDbContext : DbContext
         modelBuilder.Entity<Carro>(entity =>
         {
             entity.ToTable("Carro");
-            entity.Property(e => e.Id).ValueGeneratedNever().HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Marca).HasDefaultValue("Sin Marca");
             entity.Property(e => e.ValorFiscal).HasColumnType("NUMERIC");
             entity.Property(e => e.Fkduenno).HasColumnName("FKDUENNO");
@@ -46,7 +46,7 @@ public partial class ApplicationDbContext : DbContext
         {
             entity.ToTable("Duenno");
 
-            entity.Property(e => e.Id).ValueGeneratedNever().HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Apellido2).HasDefaultValue("Sin apellido");
         });
 

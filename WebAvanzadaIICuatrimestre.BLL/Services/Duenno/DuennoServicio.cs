@@ -30,6 +30,14 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Duenno
                 return respuesta;
             }
 
+            if(duenno.Edad< 18)
+            {
+                respuesta.esCorrecto = false;
+                respuesta.mensaje = "El Dueño no púede ser menor a 18 años";
+                respuesta.codigo = 400;
+                return respuesta;
+            }
+
             var entity = _mapper.Map<DAL.Entidades.Duenno>(duenno);
             if (!await _duennoRepositorio.CreateDuenno(entity))
             {
