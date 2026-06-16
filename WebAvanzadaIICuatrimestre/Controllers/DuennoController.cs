@@ -31,24 +31,40 @@ namespace WebAvanzadaIICuatrimestre.Controllers
 
         public async Task<IActionResult> CreateDuenno(DuennoDto duenno)// Model Binding, reicibir el objeto completo
         {
-           var respuesta = await _duennoServicio.CreateDuenno(duenno);
-           return Json(respuesta);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var respuesta = await _duennoServicio.CreateDuenno(duenno);
+            return Json(respuesta);
         }
 
         public async Task<IActionResult> GetDuennoById(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var respuesta = await _duennoServicio.GetDuennoById(id);
             return Json(respuesta);
         }
 
         public async Task<IActionResult> UpdateDuenno(DuennoDto duenno) //nombres Programa con IA
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var respuesta = await _duennoServicio.UpdateDuenno(duenno); //nombres Programa con IA
             return Json(respuesta);
         }
 
         public async Task<IActionResult> DeleteDuenno(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var respuesta = await _duennoServicio.DeleteDuenno(id);
             return Json(respuesta);
         }
