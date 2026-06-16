@@ -1,0 +1,91 @@
+@model WebAvanzadaIICuatrimestre.Models.CarroViewModel
+@using WebAvanzadaIICuatrimestre.BLL.Dtos
+
+<div class="modal fade" id="modalCrearCarro" tabindex="-1" aria-labelledby="labelModalCrearCarro" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+
+            <div class="modal-header text-white" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);">
+                <h5 class="modal-title fw-semibold" id="labelModalCrearCarro">
+                    <i class="bi bi-car-front-fill me-2"></i>Nuevo Carro
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body p-4">
+                <form id="formCrearCarro" asp-action="CreateCarro" asp-controller="Carro" method="post" class="row g-3">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Carro.Id" />
+
+                    <div class="col-md-6">
+                        <label asp-for="Carro.Placa" class="form-label fw-medium">
+                            <i class="bi bi-card-text text-primary me-1"></i>Placa
+                        </label>
+                        <input asp-for="Carro.Placa" class="form-control" placeholder="Ej: ABC-123" />
+                        <span asp-validation-for="Carro.Placa" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Carro.Marca" class="form-label fw-medium">
+                            <i class="bi bi-tag text-primary me-1"></i>Marca
+                        </label>
+                        <input asp-for="Carro.Marca" class="form-control" placeholder="Ej: Toyota" />
+                        <span asp-validation-for="Carro.Marca" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Carro.ValorFiscal" class="form-label fw-medium">
+                            <i class="bi bi-currency-dollar text-primary me-1"></i>Valor Fiscal
+                        </label>
+                        <input asp-for="Carro.ValorFiscal" type="number" step="0.01" min="0" class="form-control" placeholder="0.00" />
+                        <span asp-validation-for="Carro.ValorFiscal" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Carro.Chocado" class="form-label fw-medium">
+                            <i class="bi bi-exclamation-triangle text-primary me-1"></i>Chocado
+                        </label>
+                        <select asp-for="Carro.Chocado" class="form-select">
+                            <option value="">-- Seleccione --</option>
+                            <option value="0">No</option>
+                            <option value="1">Sí</option>
+                        </select>
+                        <span asp-validation-for="Carro.Chocado" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-12">
+                        <label asp-for="Carro.Fkduenno" class="form-label fw-medium">
+                            <i class="bi bi-person text-primary me-1"></i>Dueño
+                        </label>
+                        <select asp-for="Carro.Fkduenno" class="form-select">
+                            <option value="">-- Seleccione dueño --</option>
+                            @if (ViewBag.Duennos != null)
+                            {
+                                foreach (var d in ViewBag.Duennos)
+                                {
+                                    <option value="@d.Id">@d.Nombre</option>
+                                }
+                            }
+                        </select>
+                        <span asp-validation-for="Carro.Fkduenno" class="text-danger small"></span>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="modal-footer border-top px-4 py-3">
+                <button type="button" class="btn btn-light border" data-bs-dismiss="modal">
+                    <i class="bi bi-x-lg me-1"></i>Cerrar
+                </button>
+                <button type="button" class="btn btn-primary" id="btnGuardarCarro">
+                    <i class="bi bi-floppy me-1"></i>Guardar
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,59 +1,68 @@
-﻿@model WebAvanzadaIICuatrimestre.BLL.Dtos.DuennoDto
+@model WebAvanzadaIICuatrimestre.BLL.Dtos.DuennoDto
 
-<div class="modal fade" id="modalCrearDuenno" tabindex="-1" aria-labelledby="modalCrearDuenno" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalCrearDuenno">Crear Dueño</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="modal fade" id="modalCrearDuenno" tabindex="-1" aria-labelledby="labelModalCrearDuenno" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+
+            <div class="modal-header text-white" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);">
+                <h5 class="modal-title fw-semibold" id="labelModalCrearDuenno">
+                    <i class="bi bi-person-plus-fill me-2"></i>Nuevo Dueño
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form id="formCrearDuenno" asp-action="CreateDuenno" asp-controller="Duenno" method="post">
+
+            <div class="modal-body p-4">
+                <form id="formCrearDuenno" asp-action="CreateDuenno" asp-controller="Duenno" method="post" class="row g-3">
                     @Html.AntiForgeryToken()
                     <input type="hidden" asp-for="Id" />
-                    <div class="mb-3">
-                        <label asp-for="Nombre" class="form-label">Nombre</label>
-                        <input asp-for="Nombre" class="form-control" />
-                        <span asp-validation-for="Nombre" class="text-danger"></span>
+
+                    <div class="col-md-6">
+                        <label asp-for="Nombre" class="form-label fw-medium">
+                            <i class="bi bi-person text-primary me-1"></i>Nombre
+                        </label>
+                        <input asp-for="Nombre" class="form-control" placeholder="Nombre" />
+                        <span asp-validation-for="Nombre" class="text-danger small"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Apellido1" class="form-label">Apellido 1</label>
-                        <input asp-for="Apellido1" class="form-control" />
-                        <span asp-validation-for="Apellido1" class="text-danger"></span>
+                    <div class="col-md-6">
+                        <label asp-for="Edad" class="form-label fw-medium">
+                            <i class="bi bi-calendar text-primary me-1"></i>Edad
+                        </label>
+                        <input asp-for="Edad" type="number" min="0" class="form-control" placeholder="0" />
+                        <span asp-validation-for="Edad" class="text-danger small"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Apellido2" class="form-label">Apellido 2</label>
-                        <input asp-for="Apellido2" class="form-control" />
-                        <span asp-validation-for="Apellido2" class="text-danger"></span>
+                    <div class="col-md-6">
+                        <label asp-for="Apellido1" class="form-label fw-medium">
+                            <i class="bi bi-person-badge text-primary me-1"></i>Apellido 1
+                        </label>
+                        <input asp-for="Apellido1" class="form-control" placeholder="Primer apellido" />
+                        <span asp-validation-for="Apellido1" class="text-danger small"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Edad" class="form-label">Edad</label>
-                        <input asp-for="Edad" type="number" min="0" class="form-control" />
-                        <span asp-validation-for="Edad" class="text-danger"></span>
+                    <div class="col-md-6">
+                        <label asp-for="Apellido2" class="form-label fw-medium">
+                            <i class="bi bi-person-badge text-primary me-1"></i>Apellido 2
+                        </label>
+                        <input asp-for="Apellido2" class="form-control" placeholder="Segundo apellido" />
+                        <span asp-validation-for="Apellido2" class="text-danger small"></span>
                     </div>
 
-    
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="btnGuardarDuenno">Guardar Dueño</button>
+
+            <div class="modal-footer border-top px-4 py-3">
+                <button type="button" class="btn btn-light border" data-bs-dismiss="modal">
+                    <i class="bi bi-x-lg me-1"></i>Cerrar
+                </button>
+                <button type="button" class="btn btn-primary" id="btnGuardarDuenno">
+                    <i class="bi bi-floppy me-1"></i>Guardar
+                </button>
             </div>
+
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

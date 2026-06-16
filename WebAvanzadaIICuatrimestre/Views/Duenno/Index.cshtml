@@ -1,4 +1,4 @@
-﻿@using WebAvanzadaIICuatrimestre.BLL.Dtos;
+@using WebAvanzadaIICuatrimestre.BLL.Dtos;
 @model List<DuennoDto>
 @{
     ViewData["Title"] = "Mantenimiento de Dueños";
@@ -6,47 +6,51 @@
 
 <link rel="stylesheet" href="~/css/duenno.css" asp-append-version="true" />
 
-<div class="container my-4">
-    <div class="card shadow-sm">
-        <div class="card-header d-flex align-items-center justify-content-between">
-            <h2 class="mb-0">Lista de Dueños</h2>
+<div class="duenno-page">
+
+    <div class="page-header">
+        <div class="page-header-content">
             <div>
-                <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#modalCrearDuenno">
-                    Crear Dueño
-                </button>
+                <h1 class="page-title">
+                    <i class="bi bi-people-fill"></i> Dueños
+                </h1>
+                <p class="page-subtitle">Gestión de propietarios de vehículos</p>
             </div>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table id="tblDuenno" class="table table-hover table-bordered align-middle" style="width:100%">
-                    <thead class="table-light">
-                        <tr>
-                            <th style="width:6%">Id</th>
-                            <th>Nombre</th>
-                            <th style="width:8%">Edad</th>
-                            <th>Apellido1</th>
-                            <th>Apellido2</th>
-                            <th style="width:18%">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
+            <button type="button" class="btn btn-crear" data-bs-toggle="modal" data-bs-target="#modalCrearDuenno">
+                <i class="bi bi-plus-lg"></i> Nuevo Dueño
+            </button>
         </div>
     </div>
 
-    @await Html.PartialAsync("_Editar") @* Esto es para incluir el modal de editar dueño en esta vista. *@
-    @await Html.PartialAsync("_Crear") @* Esto es para incluir el modal de crear dueño en esta vista. *@
+    <div class="table-card">
+        <div class="table-card-header">
+            <h2 class="table-card-title">
+                <i class="bi bi-list-ul"></i> Lista de Dueños
+            </h2>
+        </div>
+        <div class="table-responsive">
+            <table id="tblDuenno" class="table table-duenno" style="width:100%">
+                <thead>
+                    <tr>
+                        <th style="width:6%"><div class="th-content"><i class="bi bi-hash"></i> Id</div></th>
+                        <th><div class="th-content"><i class="bi bi-person"></i> Nombre</div></th>
+                        <th style="width:8%"><div class="th-content"><i class="bi bi-calendar"></i> Edad</div></th>
+                        <th><div class="th-content"><i class="bi bi-person-badge"></i> Apellido 1</div></th>
+                        <th><div class="th-content"><i class="bi bi-person-badge"></i> Apellido 2</div></th>
+                        <th style="width:14%"><div class="th-content"><i class="bi bi-gear"></i> Acciones</div></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    @await Html.PartialAsync("_Editar")
+    @await Html.PartialAsync("_Crear")
 
 </div>
 
-
-
-
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" /> @* Esto es importante por que tiene los metodos para validacion de jquery *@
-    <script src="~/js/duenno.js" asp-append-version="true"></script> @* Cada vez que se haga cambios en el JS se genera un archivo nuevo con un hash en el nombre para evitar problemas de cacheo en el navegador. *@
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/duenno.js" asp-append-version="true"></script>
 }
-
-
-

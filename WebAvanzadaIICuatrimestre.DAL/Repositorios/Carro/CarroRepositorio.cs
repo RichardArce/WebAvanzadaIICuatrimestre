@@ -42,7 +42,11 @@ namespace WebAvanzadaIICuatrimestre.DAL.Repositorios.Carro
 
         public async Task<List<Entidades.Carro>> GetCarros()
         {
-            return await _context.Carros.ToListAsync();
+            return await _context.Carros
+                .AsNoTracking() // Mejora el rendimiento para consultas de solo lectura
+                .Include(c => c.FkduennoNavigation)
+                .OrderBy(c => c.Id)
+                .ToListAsync();
         }
 
         public async Task<bool> UpdateCarro(Entidades.Carro carro)
