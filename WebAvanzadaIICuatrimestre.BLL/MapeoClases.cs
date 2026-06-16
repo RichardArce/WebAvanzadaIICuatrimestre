@@ -15,6 +15,7 @@ namespace WebAvanzadaIICuatrimestre.BLL
                 .ReverseMap()
                 .ForMember(dest => dest.Fkduenno, opt => opt.MapFrom(src => src.Duenno != null ? src.Duenno.Id : src.Fkduenno));
             CreateMap<DAL.Entidades.Duenno, Dtos.DuennoDto>().ReverseMap();
+            CreateMap<DAL.Entidades.Telefono, Dtos.TelefonoDto>().ReverseMap();
         }
     }
 

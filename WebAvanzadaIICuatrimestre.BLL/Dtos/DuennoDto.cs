@@ -15,6 +15,7 @@ namespace WebAvanzadaIICuatrimestre.BLL.Dtos
         public string Apellido1 { get; set; } = string.Empty;
         [Required(ErrorMessage = "El Apellido2 es requerido")]
         public string Apellido2 { get; set; } = string.Empty;
+        public List<TelefonoDto> Telefonos { get; set; } = new List<TelefonoDto>();
         //public List<CarroDto> Carros { get; set; } = new List<CarroDto>();
     }
 }

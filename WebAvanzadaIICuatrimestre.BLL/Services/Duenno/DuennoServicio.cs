@@ -1,6 +1,7 @@
 using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WebAvanzadaIICuatrimestre.BLL.Dtos;
 using WebAvanzadaIICuatrimestre.DAL.Repositorios.Duenno;
@@ -25,7 +26,7 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Duenno
             if (duenno == null)
             {
                 respuesta.esCorrecto = false;
-                respuesta.mensaje = "Duenno inválido";
+                respuesta.mensaje = "Duenno invï¿½lido";
                 respuesta.codigo = 400;
                 return respuesta;
             }
@@ -33,16 +34,20 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Duenno
             if(duenno.Edad< 18)
             {
                 respuesta.esCorrecto = false;
-                respuesta.mensaje = "El Dueño no púede ser menor a 18 años";
+                respuesta.mensaje = "El Dueï¿½o no pï¿½ede ser menor a 18 aï¿½os";
                 respuesta.codigo = 400;
                 return respuesta;
             }
+
+            duenno.Telefonos = (duenno.Telefonos ?? new List<TelefonoDto>())
+                .Where(t => !string.IsNullOrWhiteSpace(t.Numero))
+                .ToList();
 
             var entity = _mapper.Map<DAL.Entidades.Duenno>(duenno);
             if (!await _duennoRepositorio.CreateDuenno(entity))
             {
                 respuesta.esCorrecto = false;
-                respuesta.mensaje = "No se pudo crear el dueño";
+                respuesta.mensaje = "No se pudo crear el dueï¿½o";
                 respuesta.codigo = 500;
                 return respuesta;
             }
@@ -58,7 +63,7 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Duenno
             if (!deleted)
             {
                 respuesta.esCorrecto = false;
-                respuesta.mensaje = "No se pudo eliminar el dueño";
+                respuesta.mensaje = "No se pudo eliminar el dueï¿½o";
                 respuesta.codigo = 404;
             }
             return respuesta;
@@ -71,7 +76,7 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Duenno
             if (entity == null)
             {
                 respuesta.esCorrecto = false;
-                respuesta.mensaje = "Dueño no encontrado";
+                respuesta.mensaje = "Dueï¿½o no encontrado";
                 respuesta.codigo = 404;
                 respuesta.Dato = null;
                 return respuesta;
@@ -96,16 +101,20 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Duenno
             if (duenno == null)
             {
                 respuesta.esCorrecto = false;
-                respuesta.mensaje = "Duenno inválido";
+                respuesta.mensaje = "Duenno invï¿½lido";
                 respuesta.codigo = 400;
                 return respuesta;
             }
+
+            duenno.Telefonos = (duenno.Telefonos ?? new List<TelefonoDto>())
+                .Where(t => !string.IsNullOrWhiteSpace(t.Numero))
+                .ToList();
 
             var entity = _mapper.Map<DAL.Entidades.Duenno>(duenno);
             if (!await _duennoRepositorio.UpdateDuenno(entity))
             {
                 respuesta.esCorrecto = false;
-                respuesta.mensaje = "No se pudo actualizar el dueño";
+                respuesta.mensaje = "No se pudo actualizar el dueï¿½o";
                 respuesta.codigo = 404;
                 return respuesta;
             }

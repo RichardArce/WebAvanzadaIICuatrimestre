@@ -20,6 +20,8 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<Duenno> Duennos { get; set; }
 
+    public virtual DbSet<Telefono> Telefonos { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         // Intentionally left blank. Configure the provider externally.
         {
@@ -48,6 +50,15 @@ public partial class ApplicationDbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Apellido2).HasDefaultValue("Sin apellido");
+        });
+
+        modelBuilder.Entity<Telefono>(entity =>
+        {
+            entity.ToTable("Telefono");
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Fkduenno).HasColumnName("FKDUENNO");
+
+            entity.HasOne(d => d.FkduennoNavigation).WithMany(p => p.Telefonos).HasForeignKey(d => d.Fkduenno);
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -20,6 +20,15 @@
                     { data: 'apellido1' },
                     { data: 'apellido2' },
                     {
+                        data: 'telefonos',
+                        render: (data) => {
+                            if (!data || data.length === 0) {
+                                return '<span class="text-muted">Sin teléfono</span>';
+                            }
+                            return data.map(t => t.numero).join(', ');
+                        }
+                    },
+                    {
                         data: null,
                         title: 'Acciones',
                         orderable: false,
@@ -57,6 +66,42 @@
                 Duenno.editarDuenno();
             });
 
+            $('#btnAgregarTelefonoCrear').on('click', function () {
+                Duenno.agregarFilaTelefono('#telefonosCrear');
+            });
+
+            $('#btnAgregarTelefonoEditar').on('click', function () {
+                Duenno.agregarFilaTelefono('#telefonosEditar');
+            });
+
+            $(document).on('click', '.btn-quitar-telefono', function () {
+                const contenedor = $(this).closest('.telefono-row').parent();
+                $(this).closest('.telefono-row').remove();
+                Duenno.reindexarTelefonos(contenedor);
+            });
+
+            $('#modalCrearDuenno').on('hidden.bs.modal', function () {
+                $('#telefonosCrear').empty();
+            });
+
+        },
+
+        agregarFilaTelefono(selectorContenedor, numero = '') {
+            const indice = $(selectorContenedor).children('.telefono-row').length;
+            const fila = $(`
+                <div class="input-group mb-2 telefono-row">
+                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                    <input type="text" name="Telefonos[${indice}].Numero" class="form-control" placeholder="Ej: 8888-8888" value="${numero}" />
+                    <button type="button" class="btn btn-outline-danger btn-quitar-telefono"><i class="bi bi-dash-lg"></i></button>
+                </div>
+            `);
+            $(selectorContenedor).append(fila);
+        },
+
+        reindexarTelefonos(selectorContenedor) {
+            $(selectorContenedor).children('.telefono-row').each(function (indice) {
+                $(this).find('input').attr('name', `Telefonos[${indice}].Numero`);
+            });
         },
         guardarDuenno() {
             let form = $('#formCrearDuenno');
@@ -196,7 +241,11 @@
                     $('#Apellido1').val(data.apellido1);
                     $('#Apellido2').val(data.apellido2);
                     $('#Edad').val(data.edad);
-                                                               //3. Mostrar el modal
+
+                    $('#telefonosEditar').empty();           //3. Pintar los telefonos
+                    (data.telefonos || []).forEach(t => Duenno.agregarFilaTelefono('#telefonosEditar', t.numero));
+
+                                                               //4. Mostrar el modal
 
                     $('#modalEditarDuenno').modal('show');
                 }
