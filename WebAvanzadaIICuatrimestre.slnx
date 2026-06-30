@@ -3,6 +3,9 @@
     <File Path="instruccions.md" />
   </Folder>
   <Folder Name="/.github/agents/" />
+  <Folder Name="/Pruebas/">
+    <Project Path="ProyectoPruebas/ProyectoPruebas.csproj" Id="b717e03a-04e1-49a5-b20b-4a4fa2f3edd9" />
+  </Folder>
   <Project Path="WebAvanzadaIICuatrimestre.BLL/WebAvanzadaIICuatrimestre.BLL.csproj" />
   <Project Path="WebAvanzadaIICuatrimestre.DAL/WebAvanzadaIICuatrimestre.DAL.csproj" Id="5f961b31-1398-4c30-89b1-9d5cec30e9d9" />
   <Project Path="WebAvanzadaIICuatrimestre/WebAvanzadaIICuatrimestre.csproj" />

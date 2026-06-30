@@ -4,8 +4,8 @@ using WebAvanzadaIICuatrimestre.BLL;
 using WebAvanzadaIICuatrimestre.BLL.Services.Carro;
 using WebAvanzadaIICuatrimestre.BLL.Services.Duenno;
 using WebAvanzadaIICuatrimestre.DAL.Data;
-using WebAvanzadaIICuatrimestre.DAL.Repositorios.Carro;
-using WebAvanzadaIICuatrimestre.DAL.Repositorios.Duenno;
+using WebAvanzadaIICuatrimestre.DAL.Repositorios.Generico;
+using WebAvanzadaIICuatrimestre.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,17 +17,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
-//Inyección de dependencias para repositorios, servicios, etc. Extraer a clase configuracion de servicios para mantener el Program.cs limpio y organizado. Se pueden crear clases estáticas para cada capa (Repositorios, Servicios, etc.) y llamar a sus métodos de configuración desde aquí para una mejor organización.
+//Inyecciï¿½n de dependencias para repositorios, servicios, etc. Extraer a clase configuracion de servicios para mantener el Program.cs limpio y organizado. Se pueden crear clases estï¿½ticas para cada capa (Repositorios, Servicios, etc.) y llamar a sus mï¿½todos de configuraciï¿½n desde aquï¿½ para una mejor organizaciï¿½n.
 // Repositorios
-builder.Services.AddScoped<ICarroRepositorio, CarroRepositorio>();
-builder.Services.AddScoped<IDuennoRepositorio, DuennoRepositorio>();
+builder.Services.AddScoped(typeof(IRepositorioGenerico<>), typeof(RepositorioGenerico<>));
 
 //Servicios
 builder.Services.AddScoped<ICarroServicio, CarroServicio>();
 builder.Services.AddScoped<IDuennoServicio, DuennoServicio>();
 
 // Servicios Terceros
-builder.Services.AddAutoMapper(cfg => { }, typeof(MapeoClases)); // Directamente desde la documentación
+builder.Services.AddAutoMapper(cfg => { }, typeof(MapeoClases)); // Directamente desde la documentaciï¿½n
 
 
 
@@ -57,6 +56,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+//MIDDLEWARES
+app.UseMiddleware<MiddlewareGlobalExceptionHandler>();
+
 app.UseHttpsRedirection();
 app.UseRouting();
 
@@ -75,7 +77,9 @@ app.MapControllerRoute(
 
 //FILTERS
 
-//MIDDLEWARES
+
+
+
 
 //INGRESO DE VARIASBLES DE ENTORNO AZURE KEYVAULTS
 

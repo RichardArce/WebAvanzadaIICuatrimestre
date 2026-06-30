@@ -4,18 +4,18 @@ using System.Collections.Generic;
 using System.Text;
 using WebAvanzadaIICuatrimestre.BLL.Dtos;
 using WebAvanzadaIICuatrimestre.DAL.Entidades;
-using WebAvanzadaIICuatrimestre.DAL.Repositorios.Carro;
+using WebAvanzadaIICuatrimestre.DAL.Repositorios.Generico;
 
 namespace WebAvanzadaIICuatrimestre.BLL.Services.Carro
 {
     public class CarroServicio : ICarroServicio
     {
-        //Inyeccion de dependencias del repositorio de carro
+        //Inyeccion de dependencias del repositorio genérico
 
-        private readonly ICarroRepositorio _carroRepositorio;
+        private readonly IRepositorioGenerico<DAL.Entidades.Carro> _carroRepositorio;
         private readonly IMapper _mapper;
 
-        public CarroServicio(ICarroRepositorio carroRepositorio, IMapper mapper) // Inyeccion de dependencias del repositorio de carro
+        public CarroServicio(IRepositorioGenerico<DAL.Entidades.Carro> carroRepositorio, IMapper mapper)
         {
             _carroRepositorio = carroRepositorio;   
             _mapper = mapper;
@@ -25,6 +25,7 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Carro
         //Architectura por capas, cada capa tiene una responsabilidad, la capa de servicios se encarga de la logica de negocio, la capa de repositorios se encarga de la persistencia de datos, la capa de controladores se encarga de recibir las peticiones y enviar las respuestas, la capa de modelos se encarga de definir las entidades del sistema, la capa de dto se encarga de definir los objetos que se van a enviar y recibir entre capas.
         public async Task<Respuesta<CarroDto>> CreateCarro(CarroDto carro)
         {
+
             var respuesta = new Respuesta<CarroDto>();
 
             /*Bloques de validaciones*/
@@ -58,7 +59,8 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Carro
             var dtoACarro = _mapper.Map<DAL.Entidades.Carro>(carro); // Mapeo de Dto a Modelo
 
             //Proceso
-            if (!await _carroRepositorio.CreateCarro(dtoACarro))
+            _carroRepositorio.AgregarAsync(dtoACarro);
+            if (!await _carroRepositorio.SaveChangesAsync())
             {
                 respuesta.esCorrecto = false;
                 respuesta.mensaje = "No se pudo crear el carro";
@@ -68,6 +70,9 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Carro
             }
 
             return respuesta;
+            
+
+
 
         }
 
@@ -75,7 +80,8 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Carro
         {
             var respuesta = new Respuesta<CarroDto>();
 
-            if (!await _carroRepositorio.DeleteCarro(id))
+            _carroRepositorio.EliminarAsync(id);
+            if (!await _carroRepositorio.SaveChangesAsync())
             {
                 respuesta.esCorrecto = false;
                 respuesta.mensaje = "No se pudo eliminar el carro";
@@ -89,7 +95,7 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Carro
         {
             var respuesta = new Respuesta<CarroDto?>();
 
-            var entity = await _carroRepositorio.GetCarroById(id);
+            var entity = await _carroRepositorio.ObtenerPorIdAsync(id);
             if (entity == null)
             {
                 respuesta.esCorrecto = false;
@@ -106,7 +112,7 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Carro
         {
             var respuesta = new Respuesta<List<CarroDto>>();
 
-            var list = await _carroRepositorio.GetCarros();
+            var list = await _carroRepositorio.ObtenerTodosAsync();
             respuesta.Dato = _mapper.Map <List<CarroDto>>(list);
 
             return respuesta;
@@ -151,7 +157,8 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Carro
 
             var entity = _mapper.Map<DAL.Entidades.Carro>(carro);
 
-            if (!await _carroRepositorio.UpdateCarro(entity))
+            _carroRepositorio.ActualizarAsync(entity);
+            if (!await _carroRepositorio.SaveChangesAsync())
             {
                 respuesta.esCorrecto = false;
                 respuesta.mensaje = "No se pudo actualizar el carro";

@@ -136,6 +136,13 @@
                         });
                     }
 
+                },
+                error: function (respuesta) { //Mensaje detallado en la vista para que el reporte de error sea más claro
+                    Swal.fire({
+                        title: 'Incorrecto',
+                        text: respuesta.responseJSON.description,
+                        icon: 'error'
+                    });
                 }
 
 

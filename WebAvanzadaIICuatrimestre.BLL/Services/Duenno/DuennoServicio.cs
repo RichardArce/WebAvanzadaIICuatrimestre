@@ -4,19 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAvanzadaIICuatrimestre.BLL.Dtos;
-using WebAvanzadaIICuatrimestre.DAL.Repositorios.Duenno;
+using WebAvanzadaIICuatrimestre.DAL.Entidades;
+using WebAvanzadaIICuatrimestre.DAL.Repositorios.Generico;
 
 namespace WebAvanzadaIICuatrimestre.BLL.Services.Duenno
 {
     public class DuennoServicio : IDuennoServicio
     {
-        private readonly IDuennoRepositorio _duennoRepositorio;
         private readonly IMapper _mapper;
+        private readonly IRepositorioGenerico<DAL.Entidades.Duenno> _repositorioGenerico;
 
-        public DuennoServicio(IDuennoRepositorio duennoRepositorio, IMapper mapper)
+        public DuennoServicio(IMapper mapper, IRepositorioGenerico<DAL.Entidades.Duenno> repo)
         {
-            _duennoRepositorio = duennoRepositorio;
             _mapper = mapper;
+            _repositorioGenerico = repo;
         }
 
         public async Task<Respuesta<DuennoDto>> CreateDuenno(DuennoDto duenno)
@@ -26,7 +27,7 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Duenno
             if (duenno == null)
             {
                 respuesta.esCorrecto = false;
-                respuesta.mensaje = "Duenno inv�lido";
+                respuesta.mensaje = "Duenno inválido";
                 respuesta.codigo = 400;
                 return respuesta;
             }
@@ -34,7 +35,7 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Duenno
             if(duenno.Edad< 18)
             {
                 respuesta.esCorrecto = false;
-                respuesta.mensaje = "El Due�o no p�ede ser menor a 18 a�os";
+                respuesta.mensaje = "El Duenno no puede ser menor a 18 años";
                 respuesta.codigo = 400;
                 return respuesta;
             }
@@ -44,10 +45,11 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Duenno
                 .ToList();
 
             var entity = _mapper.Map<DAL.Entidades.Duenno>(duenno);
-            if (!await _duennoRepositorio.CreateDuenno(entity))
+            _repositorioGenerico.AgregarAsync(entity);
+            if (!await _repositorioGenerico.SaveChangesAsync())
             {
                 respuesta.esCorrecto = false;
-                respuesta.mensaje = "No se pudo crear el due�o";
+                respuesta.mensaje = "No se pudo crear el dueño";
                 respuesta.codigo = 500;
                 return respuesta;
             }
@@ -59,11 +61,11 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Duenno
         public async Task<Respuesta<DuennoDto>> DeleteDuenno(int id)
         {
             var respuesta = new Respuesta<DuennoDto>();
-            var deleted = await _duennoRepositorio.DeleteDuenno(id);
-            if (!deleted)
+            _repositorioGenerico.EliminarAsync(id);
+            if (!await _repositorioGenerico.SaveChangesAsync())
             {
                 respuesta.esCorrecto = false;
-                respuesta.mensaje = "No se pudo eliminar el due�o";
+                respuesta.mensaje = "No se pudo eliminar el dueño";
                 respuesta.codigo = 404;
             }
             return respuesta;
@@ -72,11 +74,11 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Duenno
         public async Task<Respuesta<DuennoDto?>> GetDuennoById(int id)
         {
             var respuesta = new Respuesta<DuennoDto?>();
-            var entity = await _duennoRepositorio.GetDuennoById(id);
+            var entity = await _repositorioGenerico.ObtenerPorIdAsync(id, asNoTracking: true, d => d.Carros, d => d.Telefonos);
             if (entity == null)
             {
                 respuesta.esCorrecto = false;
-                respuesta.mensaje = "Due�o no encontrado";
+                respuesta.mensaje = "Dueño no encontrado";
                 respuesta.codigo = 404;
                 respuesta.Dato = null;
                 return respuesta;
@@ -89,7 +91,7 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Duenno
         public async Task<Respuesta<List<DuennoDto>>> GetDuennos()
         {
             var respuesta = new Respuesta<List<DuennoDto>>();
-            var list = await _duennoRepositorio.GetDuennos();
+            var list = await _repositorioGenerico.ObtenerTodosAsync(asNoTracking: true, d => d.Carros, d => d.Telefonos);
             respuesta.Dato = _mapper.Map<List<DuennoDto>>(list);
             return respuesta;
         }
@@ -101,7 +103,7 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Duenno
             if (duenno == null)
             {
                 respuesta.esCorrecto = false;
-                respuesta.mensaje = "Duenno inv�lido";
+                respuesta.mensaje = "Duenno inválido";
                 respuesta.codigo = 400;
                 return respuesta;
             }
@@ -111,10 +113,29 @@ namespace WebAvanzadaIICuatrimestre.BLL.Services.Duenno
                 .ToList();
 
             var entity = _mapper.Map<DAL.Entidades.Duenno>(duenno);
-            if (!await _duennoRepositorio.UpdateDuenno(entity))
+            var existing = await _repositorioGenerico.BuscarAsync(d => d.Id == entity.Id, asNoTracking: false, d => d.Telefonos);
+            if (existing == null)
             {
                 respuesta.esCorrecto = false;
-                respuesta.mensaje = "No se pudo actualizar el due�o";
+                respuesta.mensaje = "No se pudo actualizar el dueño";
+                respuesta.codigo = 404;
+                return respuesta;
+            }
+
+            existing.Nombre = entity.Nombre ?? existing.Nombre;
+            existing.Edad = entity.Edad;
+            existing.Apellido1 = entity.Apellido1 ?? existing.Apellido1;
+            existing.Apellido2 = entity.Apellido2 ?? existing.Apellido2;
+            existing.Telefonos = (entity.Telefonos ?? new List<DAL.Entidades.Telefono>())
+                .Where(t => !string.IsNullOrWhiteSpace(t.Numero))
+                .Select(t => new DAL.Entidades.Telefono { Numero = t.Numero, Fkduenno = existing.Id })
+                .ToList();
+
+            _repositorioGenerico.ActualizarAsync(existing);
+            if (!await _repositorioGenerico.SaveChangesAsync())
+            {
+                respuesta.esCorrecto = false;
+                respuesta.mensaje = "No se pudo actualizar el dueño";
                 respuesta.codigo = 404;
                 return respuesta;
             }
